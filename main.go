@@ -50,8 +50,14 @@ type DB struct {
 }
 
 func NewDB() *DB {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=true",
-		os.Getenv("DB_USER"), os.Getenv("DB_PASS"), os.Getenv("DB_HOST"), os.Getenv("ENT_DB_NAME"))
+	dsn := fmt.Sprintf(
+		"%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=true",
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASS"),
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_NAME"),
+	)
 
 	entDB, err := ent.Open("mysql", dsn)
 	if err != nil {
@@ -59,7 +65,7 @@ func NewDB() *DB {
 	}
 	env := os.Getenv("ENV")
 
-	// 開発環境ではデバッグモードを利用
+	// デバッグモードを利用
 	if env != "staging" && env != "production" {
 		entDB = entDB.Debug()
 	}
