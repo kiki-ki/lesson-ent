@@ -290,7 +290,7 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 			Value:  value,
 			Column: user.FieldComment,
 		})
-		_node.Comment = &value
+		_node.Comment = value
 	}
 	if nodes := uc.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

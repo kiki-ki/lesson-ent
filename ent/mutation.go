@@ -854,7 +854,7 @@ func (m *UserMutation) Comment() (r null.String, exists bool) {
 // OldComment returns the old "comment" field's value of the User entity.
 // If the User object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserMutation) OldComment(ctx context.Context) (v *null.String, err error) {
+func (m *UserMutation) OldComment(ctx context.Context) (v null.String, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldComment is only allowed on UpdateOne operations")
 	}

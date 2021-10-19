@@ -4,6 +4,7 @@ import (
 	"regexp"
 
 	"entgo.io/ent"
+	"entgo.io/ent/dialect"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"github.com/guregu/null"
@@ -36,7 +37,9 @@ func (User) Fields() []ent.Field {
 			Values("admin", "normal"),
 		field.Text("comment").
 			Optional().
-			Nillable().
+			SchemaType(map[string]string{
+				dialect.MySQL: "text",
+			}).
 			GoType(null.String{}),
 	}
 }
