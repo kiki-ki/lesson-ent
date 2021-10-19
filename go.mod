@@ -6,6 +6,7 @@ require (
 	entgo.io/ent v0.9.1 // indirect
 	github.com/go-bindata/go-bindata v1.0.1-0.20190711162640-ee3c2418e368 // indirect
 	github.com/go-chi/chi/v5 v5.0.4 // indirect
+	github.com/go-chi/render v1.0.1 // indirect
 	github.com/go-openapi/inflect v0.19.0 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
