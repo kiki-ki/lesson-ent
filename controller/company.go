@@ -10,7 +10,6 @@ import (
 	"github.com/go-chi/render"
 	"github.com/kiki-ki/lesson-ent/controller/request"
 	"github.com/kiki-ki/lesson-ent/database"
-	"github.com/kiki-ki/lesson-ent/ent"
 	"github.com/kiki-ki/lesson-ent/ent/user"
 	"github.com/kiki-ki/lesson-ent/util"
 )
@@ -175,11 +174,4 @@ func (c *companyController) CreateWithUser(w http.ResponseWriter, r *http.Reques
 		"company": company,
 		"user":    user,
 	})
-}
-
-func rollback(tx *ent.Tx, err error) error {
-	if rerr := tx.Rollback(); rerr != nil {
-		err = fmt.Errorf("%w: %v", err, rerr)
-	}
-	return err
 }

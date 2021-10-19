@@ -4,6 +4,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
+	"github.com/guregu/null"
 )
 
 // User holds the schema definition for the User entity.
@@ -25,7 +26,7 @@ func (User) Fields() []ent.Field {
 		field.String("name"),
 		field.String("email").Unique(),
 		field.Enum("role").Values("admin", "normal"),
-		field.Text("comment").Optional().Nillable(),
+		field.Text("comment").Optional().Nillable().GoType(null.String{}),
 	}
 }
 

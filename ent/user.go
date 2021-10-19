@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
+	"github.com/guregu/null"
 	"github.com/kiki-ki/lesson-ent/ent/company"
 	"github.com/kiki-ki/lesson-ent/ent/user"
 )
@@ -30,7 +31,7 @@ type User struct {
 	// Role holds the value of the "role" field.
 	Role user.Role `json:"role,omitempty"`
 	// Comment holds the value of the "comment" field.
-	Comment *string `json:"comment,omitempty"`
+	Comment *null.String `json:"comment,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the UserQuery when eager-loading is set.
 	Edges UserEdges `json:"edges"`
@@ -64,9 +65,11 @@ func (*User) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case user.FieldComment:
+			values[i] = &sql.NullScanner{S: new(null.String)}
 		case user.FieldID, user.FieldCompanyID:
 			values[i] = new(sql.NullInt64)
-		case user.FieldName, user.FieldEmail, user.FieldRole, user.FieldComment:
+		case user.FieldName, user.FieldEmail, user.FieldRole:
 			values[i] = new(sql.NullString)
 		case user.FieldCreatedAt, user.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -128,11 +131,11 @@ func (u *User) assignValues(columns []string, values []interface{}) error {
 				u.Role = user.Role(value.String)
 			}
 		case user.FieldComment:
-			if value, ok := values[i].(*sql.NullString); !ok {
+			if value, ok := values[i].(*sql.NullScanner); !ok {
 				return fmt.Errorf("unexpected type %T for field comment", values[i])
 			} else if value.Valid {
-				u.Comment = new(string)
-				*u.Comment = value.String
+				u.Comment = new(null.String)
+				*u.Comment = *value.S.(*null.String)
 			}
 		}
 	}
@@ -181,7 +184,7 @@ func (u *User) String() string {
 	builder.WriteString(fmt.Sprintf("%v", u.Role))
 	if v := u.Comment; v != nil {
 		builder.WriteString(", comment=")
-		builder.WriteString(*v)
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteByte(')')
 	return builder.String()

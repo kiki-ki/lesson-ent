@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/guregu/null"
 	"github.com/kiki-ki/lesson-ent/ent/company"
 	"github.com/kiki-ki/lesson-ent/ent/predicate"
 	"github.com/kiki-ki/lesson-ent/ent/user"
@@ -60,15 +61,15 @@ func (uu *UserUpdate) SetRole(u user.Role) *UserUpdate {
 }
 
 // SetComment sets the "comment" field.
-func (uu *UserUpdate) SetComment(s string) *UserUpdate {
-	uu.mutation.SetComment(s)
+func (uu *UserUpdate) SetComment(n null.String) *UserUpdate {
+	uu.mutation.SetComment(n)
 	return uu
 }
 
 // SetNillableComment sets the "comment" field if the given value is not nil.
-func (uu *UserUpdate) SetNillableComment(s *string) *UserUpdate {
-	if s != nil {
-		uu.SetComment(*s)
+func (uu *UserUpdate) SetNillableComment(n *null.String) *UserUpdate {
+	if n != nil {
+		uu.SetComment(*n)
 	}
 	return uu
 }
@@ -321,15 +322,15 @@ func (uuo *UserUpdateOne) SetRole(u user.Role) *UserUpdateOne {
 }
 
 // SetComment sets the "comment" field.
-func (uuo *UserUpdateOne) SetComment(s string) *UserUpdateOne {
-	uuo.mutation.SetComment(s)
+func (uuo *UserUpdateOne) SetComment(n null.String) *UserUpdateOne {
+	uuo.mutation.SetComment(n)
 	return uuo
 }
 
 // SetNillableComment sets the "comment" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillableComment(s *string) *UserUpdateOne {
-	if s != nil {
-		uuo.SetComment(*s)
+func (uuo *UserUpdateOne) SetNillableComment(n *null.String) *UserUpdateOne {
+	if n != nil {
+		uuo.SetComment(*n)
 	}
 	return uuo
 }

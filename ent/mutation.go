@@ -8,6 +8,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/guregu/null"
 	"github.com/kiki-ki/lesson-ent/ent/company"
 	"github.com/kiki-ki/lesson-ent/ent/predicate"
 	"github.com/kiki-ki/lesson-ent/ent/user"
@@ -532,7 +533,7 @@ type UserMutation struct {
 	name           *string
 	email          *string
 	role           *user.Role
-	comment        *string
+	comment        *null.String
 	clearedFields  map[string]struct{}
 	company        *int
 	clearedcompany bool
@@ -837,12 +838,12 @@ func (m *UserMutation) ResetRole() {
 }
 
 // SetComment sets the "comment" field.
-func (m *UserMutation) SetComment(s string) {
-	m.comment = &s
+func (m *UserMutation) SetComment(n null.String) {
+	m.comment = &n
 }
 
 // Comment returns the value of the "comment" field in the mutation.
-func (m *UserMutation) Comment() (r string, exists bool) {
+func (m *UserMutation) Comment() (r null.String, exists bool) {
 	v := m.comment
 	if v == nil {
 		return
@@ -853,7 +854,7 @@ func (m *UserMutation) Comment() (r string, exists bool) {
 // OldComment returns the old "comment" field's value of the User entity.
 // If the User object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserMutation) OldComment(ctx context.Context) (v *string, err error) {
+func (m *UserMutation) OldComment(ctx context.Context) (v *null.String, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldComment is only allowed on UpdateOne operations")
 	}
@@ -1049,7 +1050,7 @@ func (m *UserMutation) SetField(name string, value ent.Value) error {
 		m.SetRole(v)
 		return nil
 	case user.FieldComment:
-		v, ok := value.(string)
+		v, ok := value.(null.String)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

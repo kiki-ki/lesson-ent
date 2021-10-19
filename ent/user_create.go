@@ -10,6 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/guregu/null"
 	"github.com/kiki-ki/lesson-ent/ent/company"
 	"github.com/kiki-ki/lesson-ent/ent/user"
 )
@@ -74,15 +75,15 @@ func (uc *UserCreate) SetRole(u user.Role) *UserCreate {
 }
 
 // SetComment sets the "comment" field.
-func (uc *UserCreate) SetComment(s string) *UserCreate {
-	uc.mutation.SetComment(s)
+func (uc *UserCreate) SetComment(n null.String) *UserCreate {
+	uc.mutation.SetComment(n)
 	return uc
 }
 
 // SetNillableComment sets the "comment" field if the given value is not nil.
-func (uc *UserCreate) SetNillableComment(s *string) *UserCreate {
-	if s != nil {
-		uc.SetComment(*s)
+func (uc *UserCreate) SetNillableComment(n *null.String) *UserCreate {
+	if n != nil {
+		uc.SetComment(*n)
 	}
 	return uc
 }

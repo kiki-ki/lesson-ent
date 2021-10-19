@@ -7,6 +7,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"github.com/guregu/null"
 	"github.com/kiki-ki/lesson-ent/ent/predicate"
 )
 
@@ -129,7 +130,7 @@ func Email(v string) predicate.User {
 }
 
 // Comment applies equality check predicate on the "comment" field. It's identical to CommentEQ.
-func Comment(v string) predicate.User {
+func Comment(v null.String) predicate.User {
 	return predicate.User(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldComment), v))
 	})
@@ -606,21 +607,21 @@ func RoleNotIn(vs ...Role) predicate.User {
 }
 
 // CommentEQ applies the EQ predicate on the "comment" field.
-func CommentEQ(v string) predicate.User {
+func CommentEQ(v null.String) predicate.User {
 	return predicate.User(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldComment), v))
 	})
 }
 
 // CommentNEQ applies the NEQ predicate on the "comment" field.
-func CommentNEQ(v string) predicate.User {
+func CommentNEQ(v null.String) predicate.User {
 	return predicate.User(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldComment), v))
 	})
 }
 
 // CommentIn applies the In predicate on the "comment" field.
-func CommentIn(vs ...string) predicate.User {
+func CommentIn(vs ...null.String) predicate.User {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -637,7 +638,7 @@ func CommentIn(vs ...string) predicate.User {
 }
 
 // CommentNotIn applies the NotIn predicate on the "comment" field.
-func CommentNotIn(vs ...string) predicate.User {
+func CommentNotIn(vs ...null.String) predicate.User {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -654,51 +655,30 @@ func CommentNotIn(vs ...string) predicate.User {
 }
 
 // CommentGT applies the GT predicate on the "comment" field.
-func CommentGT(v string) predicate.User {
+func CommentGT(v null.String) predicate.User {
 	return predicate.User(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldComment), v))
 	})
 }
 
 // CommentGTE applies the GTE predicate on the "comment" field.
-func CommentGTE(v string) predicate.User {
+func CommentGTE(v null.String) predicate.User {
 	return predicate.User(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldComment), v))
 	})
 }
 
 // CommentLT applies the LT predicate on the "comment" field.
-func CommentLT(v string) predicate.User {
+func CommentLT(v null.String) predicate.User {
 	return predicate.User(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldComment), v))
 	})
 }
 
 // CommentLTE applies the LTE predicate on the "comment" field.
-func CommentLTE(v string) predicate.User {
+func CommentLTE(v null.String) predicate.User {
 	return predicate.User(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldComment), v))
-	})
-}
-
-// CommentContains applies the Contains predicate on the "comment" field.
-func CommentContains(v string) predicate.User {
-	return predicate.User(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldComment), v))
-	})
-}
-
-// CommentHasPrefix applies the HasPrefix predicate on the "comment" field.
-func CommentHasPrefix(v string) predicate.User {
-	return predicate.User(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldComment), v))
-	})
-}
-
-// CommentHasSuffix applies the HasSuffix predicate on the "comment" field.
-func CommentHasSuffix(v string) predicate.User {
-	return predicate.User(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldComment), v))
 	})
 }
 
@@ -713,20 +693,6 @@ func CommentIsNil() predicate.User {
 func CommentNotNil() predicate.User {
 	return predicate.User(func(s *sql.Selector) {
 		s.Where(sql.NotNull(s.C(FieldComment)))
-	})
-}
-
-// CommentEqualFold applies the EqualFold predicate on the "comment" field.
-func CommentEqualFold(v string) predicate.User {
-	return predicate.User(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldComment), v))
-	})
-}
-
-// CommentContainsFold applies the ContainsFold predicate on the "comment" field.
-func CommentContainsFold(v string) predicate.User {
-	return predicate.User(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldComment), v))
 	})
 }
 
