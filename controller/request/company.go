@@ -7,6 +7,6 @@ type CompanyUpdateReq struct {
 type CompanyCreateWithUserReq struct {
 	CompanyName string `json:"companyName"`
 	UserName    string `json:"userName"`
-	UserRole    string `json:"userRole"`
+	UserEmail   string `json:"userEmail"`
 	UserComment string `json:"userComment"`
 }

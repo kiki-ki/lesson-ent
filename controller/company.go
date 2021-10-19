@@ -153,6 +153,7 @@ func (c *companyController) CreateWithUser(w http.ResponseWriter, r *http.Reques
 	user, err := tx.User.Create().
 		SetCompany(company).
 		SetName(req.UserName).
+		SetEmail(req.UserEmail).
 		SetRole(user.RoleAdmin).
 		SetComment(req.UserComment).
 		Save(c.ctx)
