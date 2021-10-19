@@ -1,10 +1,13 @@
 package schema
 
 import (
+	"regexp"
+
 	"entgo.io/ent"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"github.com/guregu/null"
+	"github.com/kiki-ki/lesson-ent/ent/schema/validation"
 )
 
 // User holds the schema definition for the User entity.
@@ -22,11 +25,19 @@ func (User) Mixin() []ent.Mixin {
 // Fields of the User.
 func (User) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int("company_id"),
-		field.String("name"),
-		field.String("email").Unique(),
-		field.Enum("role").Values("admin", "normal"),
-		field.Text("comment").Optional().Nillable().GoType(null.String{}),
+		field.Int("company_id").
+			Positive(),
+		field.String("name").
+			Validate(validation.BlackListString([]string{"hoge", "fuga"})),
+		field.String("email").
+			Unique().
+			Match(regexp.MustCompile(validation.EmailRegex)),
+		field.Enum("role").
+			Values("admin", "normal"),
+		field.Text("comment").
+			Optional().
+			Nillable().
+			GoType(null.String{}),
 	}
 }
 

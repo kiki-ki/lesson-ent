@@ -185,11 +185,26 @@ func (uc *UserCreate) check() error {
 	if _, ok := uc.mutation.CompanyID(); !ok {
 		return &ValidationError{Name: "company_id", err: errors.New(`ent: missing required field "company_id"`)}
 	}
+	if v, ok := uc.mutation.CompanyID(); ok {
+		if err := user.CompanyIDValidator(v); err != nil {
+			return &ValidationError{Name: "company_id", err: fmt.Errorf(`ent: validator failed for field "company_id": %w`, err)}
+		}
+	}
 	if _, ok := uc.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "name"`)}
 	}
+	if v, ok := uc.mutation.Name(); ok {
+		if err := user.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "name": %w`, err)}
+		}
+	}
 	if _, ok := uc.mutation.Email(); !ok {
 		return &ValidationError{Name: "email", err: errors.New(`ent: missing required field "email"`)}
+	}
+	if v, ok := uc.mutation.Email(); ok {
+		if err := user.EmailValidator(v); err != nil {
+			return &ValidationError{Name: "email", err: fmt.Errorf(`ent: validator failed for field "email": %w`, err)}
+		}
 	}
 	if _, ok := uc.mutation.Role(); !ok {
 		return &ValidationError{Name: "role", err: errors.New(`ent: missing required field "role"`)}
