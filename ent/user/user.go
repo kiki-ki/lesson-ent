@@ -2,24 +2,46 @@
 
 package user
 
+import (
+	"fmt"
+)
+
 const (
 	// Label holds the string label denoting the user type in the database.
 	Label = "user"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldCompanyID holds the string denoting the company_id field in the database.
+	FieldCompanyID = "company_id"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
-	// FieldAge holds the string denoting the age field in the database.
-	FieldAge = "age"
+	// FieldEmail holds the string denoting the email field in the database.
+	FieldEmail = "email"
+	// FieldRole holds the string denoting the role field in the database.
+	FieldRole = "role"
+	// FieldComment holds the string denoting the comment field in the database.
+	FieldComment = "comment"
+	// EdgeCompany holds the string denoting the company edge name in mutations.
+	EdgeCompany = "company"
 	// Table holds the table name of the user in the database.
 	Table = "users"
+	// CompanyTable is the table that holds the company relation/edge.
+	CompanyTable = "users"
+	// CompanyInverseTable is the table name for the Company entity.
+	// It exists in this package in order to avoid circular dependency with the "company" package.
+	CompanyInverseTable = "companies"
+	// CompanyColumn is the table column denoting the company relation/edge.
+	CompanyColumn = "company_id"
 )
 
 // Columns holds all SQL columns for user fields.
 var Columns = []string{
 	FieldID,
+	FieldCompanyID,
 	FieldName,
-	FieldAge,
+	FieldEmail,
+	FieldRole,
+	FieldComment,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -32,9 +54,25 @@ func ValidColumn(column string) bool {
 	return false
 }
 
-var (
-	// DefaultName holds the default value on creation for the "name" field.
-	DefaultName string
-	// AgeValidator is a validator for the "age" field. It is called by the builders before save.
-	AgeValidator func(int) error
+// Role defines the type for the "role" enum field.
+type Role string
+
+// Role values.
+const (
+	RoleAdmin  Role = "admin"
+	RoleNormal Role = "normal"
 )
+
+func (r Role) String() string {
+	return string(r)
+}
+
+// RoleValidator is a validator for the "role" field enum values. It is called by the builders before save.
+func RoleValidator(r Role) error {
+	switch r {
+	case RoleAdmin, RoleNormal:
+		return nil
+	default:
+		return fmt.Errorf("user: invalid enum value for role field: %q", r)
+	}
+}

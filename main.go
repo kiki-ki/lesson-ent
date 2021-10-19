@@ -11,6 +11,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/kiki-ki/lesson-ent/ent"
+	"github.com/kiki-ki/lesson-ent/ent/migrate"
 )
 
 func main() {
@@ -18,7 +19,12 @@ func main() {
 	defer db.Conn.Close()
 
 	// オートマイグレーションの実行
-	if err := db.Conn.Schema.Create(context.Background()); err != nil {
+	err := db.Conn.Schema.Create(
+		context.Background(),
+		migrate.WithDropIndex(true),
+		migrate.WithDropColumn(true),
+	)
+	if err != nil {
 		log.Fatalf("failed creating schema resources: %v", err)
 	}
 
