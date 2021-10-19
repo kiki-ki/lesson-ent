@@ -12,6 +12,7 @@ import (
 	"github.com/kiki-ki/lesson-ent/database"
 	"github.com/kiki-ki/lesson-ent/ent"
 	"github.com/kiki-ki/lesson-ent/ent/user"
+	"github.com/kiki-ki/lesson-ent/util"
 )
 
 func NewCompanyController(dbc *database.EntClient) CompanyController {
@@ -145,7 +146,7 @@ func (c *companyController) CreateWithUser(w http.ResponseWriter, r *http.Reques
 		SetName(req.CompanyName).
 		Save(c.ctx)
 	if err != nil {
-		err = rollback(tx, err)
+		err = util.Rollback(tx, err)
 		w.WriteHeader(http.StatusInternalServerError)
 		render.JSON(w, r, err.Error())
 		return
@@ -158,7 +159,7 @@ func (c *companyController) CreateWithUser(w http.ResponseWriter, r *http.Reques
 		SetComment(req.UserComment).
 		Save(c.ctx)
 	if err != nil {
-		err = rollback(tx, err)
+		err = util.Rollback(tx, err)
 		w.WriteHeader(http.StatusInternalServerError)
 		render.JSON(w, r, err.Error())
 		return
